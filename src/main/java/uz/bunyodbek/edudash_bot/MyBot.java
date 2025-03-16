@@ -29,7 +29,14 @@ public class MyBot extends TelegramLongPollingBot {
             if (text.equals("/start")){
                 try {
                     execute(myBotService.start(chatId));
-                    execute(myBotService.shareContect(chatId));
+                    execute(myBotService.shareContact(chatId));
+                } catch (TelegramApiException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if (text.equals("Share contact")){
+                try {
+                    execute(myBotService.requestStudentId(chatId));
                 } catch (TelegramApiException e) {
                     throw new RuntimeException(e);
                 }

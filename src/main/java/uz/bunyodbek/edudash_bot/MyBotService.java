@@ -18,7 +18,7 @@ public class MyBotService {
         sendMessage.setText("Assalomu aleykum EDUDASH ning Telegramm Bot ga Xush kelibsiz!!!");
         return sendMessage;
     }
-    public SendMessage shareContect(Long chatId) {
+    public SendMessage shareContact(Long chatId) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.setText("Registratsiya qilish uchun  Kontaktingizni yuboring");
@@ -28,7 +28,7 @@ public class MyBotService {
 
         KeyboardRow row = new KeyboardRow();
         KeyboardButton button = new KeyboardButton();
-        button.setText("Share contect");
+        button.setText("Share contact");
         button.setRequestContact(true);
         row.add(button);
         rows.add(row);
@@ -60,10 +60,6 @@ public class MyBotService {
 
         return message;
     }
-
-
-
-
     public SendMessage reply(Long chatId) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
