@@ -2,28 +2,29 @@ package uz.bunyodbek.edudash_bot;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.objects.Contact;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-
-import static jdk.javadoc.internal.tool.Main.execute;
+import org.telegram.telegrambots.meta.generics.LongPollingBot;
+import uz.bunyodbek.edudash_bot.Controller.StudentController;
 
 @Component
-public class MyBot {
+public class MyBot extends TelegramLongPollingBot {
     private MyBotService myBotService = new MyBotService();
-
+    private StudentController studentController = new StudentController();
     @Autowired
     InfoRepo infoRepo;
-
     @Override
     public void onUpdateReceived(Update update) {
-        if (update.hasMessage() && update.getMessage().hasText()) {
+        if (update.hasMessage() && update.getMessage().hasText()){
             Long chatId = update.getMessage().getChatId();
-            String text = update.getMessage().getText();
             String firstName = update.getMessage().getChat().getFirstName();
             String lastName = update.getMessage().getChat().getLastName();
+            String text = update.getMessage().getText();
 
-            Info info = new Info(chatId, firstName, lastName);
+            Info info = new Info(chatId, firstName, lastName, text);
             infoRepo.save(info);
             if (text.equals("/start")){
                 try {
@@ -33,18 +34,21 @@ public class MyBot {
                     throw new RuntimeException(e);
                 }
             }
-            if (update.hasMessage() && update.getMessage().hasContact()) {
-                Long chatId = update.getMessage().getChatId();
 
-
-                Contact contact = update.getMessage().getContact();
-                String phoneNumber = contact.getPhoneNumber();
-                try {
-                    execute(myBotService.shareContect(chatId));
-                } catch (TelegramApiException e) {
-                    throw new RuntimeException(e);
-                }
             }
         }
+
+
+
+    @Override
+    public String getBotUsername() {
+        return "@IlyosjonProject_bot:";
+    }
+
+    public MyBot (TelegramBotsApi telegramBotsApi) throws TelegramApiException {
+        super("7657833917:AAHpOBHTwJMPZDlDEz14A1vAIMdWluyq7wM");
+        telegramBotsApi.registerBot(this);
+
+    }
 }
-}
+

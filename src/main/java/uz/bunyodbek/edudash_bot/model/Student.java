@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class students {
+public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -19,4 +19,8 @@ public class students {
     private String lastname;
     @Column(nullable = false , unique = true)
     private String email;
+    @Column(nullable = false)
+    private String password;
+    @Column(nullable = false)
+    private String grade;
 }

@@ -11,7 +11,7 @@ public class Info {
     private String firstname;
     private String lastname;
 
-    public Info(Long chatid, String firstname, String lastname) {
+    public Info(Long chatid, String firstname, String lastname, String text) {
         this.chatid = chatid;
         this.firstname = firstname;
         this.lastname = lastname;

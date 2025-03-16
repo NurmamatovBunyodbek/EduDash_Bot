@@ -4,9 +4,12 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
+import uz.bunyodbek.edudash_bot.model.Student;
+import uz.bunyodbek.edudash_bot.repository.StudentRepo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class MyBotService {
     public SendMessage start(Long chatId) {
@@ -35,7 +38,32 @@ public class MyBotService {
         sendMessage.setReplyMarkup(markup);
         return sendMessage;
     }
-    public SendMessage baho(Long chatId) {
+    public SendMessage requestStudentId(Long chatId) {
+        SendMessage message = new SendMessage();
+        message.setChatId(chatId);
+        message.setText("Farzandingizning ID sini kiriting:");
+
+        return message;
+    }
+    public SendMessage getStudentInfo(Long chatId, Long studentId) {
+        SendMessage message = new SendMessage();
+        message.setChatId(chatId);
+
+        Optional<Student> studentOptional = StudentRepo.findById(studentId);
+        if (studentOptional.isPresent()) {
+            Student student = studentOptional.get();
+            message.setText("Farzandingiz: " + student.getFirstname() + " " + student.getLastname());
+            message.setReplyMarkup(getClass(reply(Long ,chatId)); // Tugmalar qo‘shiladi <-- bu yerga qarang ustoz
+        } else {
+            message.setText("Bunday ID topilmadi, qaytadan kiriting.");
+        }
+
+        return message;
+    }
+
+
+
+    public SendMessage reply(Long chatId) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.setText("Tanlang!!!");
